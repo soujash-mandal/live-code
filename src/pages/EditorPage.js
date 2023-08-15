@@ -11,6 +11,15 @@ import {
 import { toast } from "react-hot-toast";
 
 const EditorPage = () => {
+  // Add an event listener to the beforeunload event
+  window.addEventListener("beforeunload", function (event) {
+    // Cancel the event (modern browsers will display a confirmation dialog)
+    event.preventDefault();
+    // Set the custom message to be displayed in the confirmation dialog
+    event.returnValue =
+      "Are you sure you want to leave? Your changes may not be saved.";
+  });
+  
   const socketRef = useRef();
   const location = useLocation();
   const { roomId } = useParams();
@@ -94,7 +103,8 @@ const EditorPage = () => {
           <h4>Connected Users</h4>
           <div className="clientsList">
             {clients.map((client) => (
-              <><h5 className="client">{client.username}</h5>
+              <>
+                <h5 className="client">{client.username}</h5>
               </>
             ))}
           </div>

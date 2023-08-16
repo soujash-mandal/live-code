@@ -19,7 +19,7 @@ const EditorPage = () => {
     event.returnValue =
       "Are you sure you want to leave? Your changes may not be saved.";
   });
-  
+
   const socketRef = useRef();
   const location = useLocation();
   const { roomId } = useParams();
@@ -53,7 +53,15 @@ const EditorPage = () => {
           // }
           // double socket id creation problem resolved
           // Filter out objects at odd positions
-          let filteredClients = clients.filter((_, index) => index % 2 === 0);
+          // let filteredClients = clients.filter((_, index) => index % 2 === 0);
+          let uniqueUsernames = new Set();
+          let filteredClients = clients.filter((client) => {
+            if (!uniqueUsernames.has(client.username)) {
+              uniqueUsernames.add(client.username);
+              return true;
+            }
+            return false;
+          });
           setclients(filteredClients);
         }
       );
